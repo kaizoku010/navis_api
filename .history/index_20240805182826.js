@@ -18,16 +18,16 @@ const client = new MongoClient(uri, {
     ssl: true
   });
 
-async function connectToDatabase() {
+async function run() {
     try {
       await client.connect();
       console.log("Connected to MongoDB");
-    } finally {
-        await client.close();
-      }
+    } catch (error) {
+      console.error("Failed to connect to MongoDB", error);
+    }
   }
   
-  connectToDatabase().catch(console.dir);
+  connectToDatabase();
 
 
 app.get('/deliveries', async (req, res) => {

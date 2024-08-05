@@ -23,6 +23,7 @@ async function connectToDatabase() {
       await client.connect();
       console.log("Connected to MongoDB");
     } finally {
+        // Ensures that the client will close when you finish/error
         await client.close();
       }
   }
