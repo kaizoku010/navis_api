@@ -8,7 +8,7 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cors());
 
-const uri = "mongodb+srv://moxie5dev:Ob7Ww5HY7w9W5sLp@navis.1ie1dmm.mongodb.net/?retryWrites=true&w=majority&appName=navis";
+const uri = "mongodb+srv://moxie5dev:Ob7Ww5HY7w9W5sLp>@navis.1ie1dmm.mongodb.net/?retryWrites=true&w=majority&appName=navis";
 const client = new MongoClient(uri, {
     serverApi: {
       version: ServerApiVersion.v1,
