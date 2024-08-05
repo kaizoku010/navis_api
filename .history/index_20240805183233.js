@@ -21,8 +21,8 @@ const client = new MongoClient(uri, {
 async function connectToDatabase() {
     try {
       await client.connect();
-      await client.db("navis_db").command({ ping: 1 });
-      console.log("Pinged your deployment. You successfully connected to ther server!");
+      await client.db("admin").command({ ping: 1 });
+      console.log("Pinged your deployment. You successfully connected to MongoDB!");
       console.log("Connected to MongoDB");
     } finally {
         await client.close();
