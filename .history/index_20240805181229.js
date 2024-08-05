@@ -10,15 +10,12 @@ app.use(cors());
 
 const uri = "mongodb+srv://moxie5dev:<Ob7Ww5HY7w9W5sLp>@navis.1ie1dmm.mongodb.net/?retryWrites=true&w=majority&appName=navis";
 const client = new MongoClient(uri, {
-    serverApi: {
-      version: ServerApiVersion.v1,
-      strict: true,
-      deprecationErrors: true,
-    },
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    ssl: true
-  });
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,+
+  }
+});
 
 async function connectToDatabase() {
     try {

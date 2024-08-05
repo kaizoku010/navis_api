@@ -17,7 +17,7 @@ const client = new MongoClient(uri, {
     },
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    ssl: true
+    `ssl: true` from the client options as it's not needed here
   });
 
 async function connectToDatabase() {
