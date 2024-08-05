@@ -231,7 +231,7 @@ export const AWSProvider = ({ children }) => {
     try {
       const imageUrl = await uploadImageToS3(imageFile); // Implement your image upload logic here
       const userData = { username, email, company, password, accountType, imageUrl };
-      await fetch(`/users`, {
+      await fetch(/users`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

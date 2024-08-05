@@ -39,7 +39,7 @@ export const AWSProvider = ({ children }) => {
   const fetchNonUserDeliveries = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`/non-user-deliveries`, {
+      const response = await fetch(`${endpoint}/non-user-deliveries`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ export const AWSProvider = ({ children }) => {
   const fetchDriversFromAPI = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`/drivers?company=${user?.company}`, {
+      const response = await fetch(`${endpoint}/drivers?company=${user?.company}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ export const AWSProvider = ({ children }) => {
 
   const updateDeliveryStatus = async (uid, status) => {
     try {
-      await fetch(`/deliveries/${uid}`, {
+      await fetch(`${endpoint}/deliveries/${uid}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ export const AWSProvider = ({ children }) => {
   const saveNonUserRequests = async (reqData) => {
     setLoading(true);
     try {
-      await fetch(`/non-user-requests`, {
+      await fetch(`${endpoint}/non-user-requests`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -106,7 +106,7 @@ export const AWSProvider = ({ children }) => {
   const saveDriverDataToAPI = async (driverData) => {
     setLoading(true);
     try {
-      await fetch(`/drivers`, {
+      await fetch(`${endpoint}/drivers`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -123,7 +123,7 @@ export const AWSProvider = ({ children }) => {
   const fetchTrucksFromAPI = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`/trucks?company=${user?.company}`, {
+      const response = await fetch(`${endpoint}/trucks?company=${user?.company}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -141,7 +141,7 @@ export const AWSProvider = ({ children }) => {
   const fetchAllTrucks = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`/trucks`, {
+      const response = await fetch(`${endpoint}/trucks`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -159,7 +159,7 @@ export const AWSProvider = ({ children }) => {
   const saveTruckDataToAPI = async (truckData) => {
     setLoading(true);
     try {
-      await fetch(`/trucks`, {
+      await fetch(`${endpoint}/trucks`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -176,7 +176,7 @@ export const AWSProvider = ({ children }) => {
   const loginUser = async (username, password) => {
     setLoading(true);
     try {
-      const response = await fetch(`/users?username=${username}`, {
+      const response = await fetch(`${endpoint}/users?username=${username}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -231,7 +231,7 @@ export const AWSProvider = ({ children }) => {
     try {
       const imageUrl = await uploadImageToS3(imageFile); // Implement your image upload logic here
       const userData = { username, email, company, password, accountType, imageUrl };
-      await fetch(`/users`, {
+      await fetch(`${endpoint}/users`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
