@@ -187,7 +187,7 @@ app.post('/register', async (req, res) => {
         const { username, email, company, password, accountType, imageUrl } = req.body;
         const userData = { username, email, company, password, accountType, imageUrl };
         const database = client.db('navis_db');
-        const collection = database.collection('navis_users');
+        const collection = database.collection('navis)users');
         await collection.insertOne(userData);
         res.send('User registered');
     } catch (error) {
