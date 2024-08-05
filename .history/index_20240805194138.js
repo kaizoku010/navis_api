@@ -9,7 +9,7 @@ const {GridFsStorage} = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 
 const port = process.env.PORT || 3000;
-app.use(cors()); // This will allow requests from any origin
+
 app.use(express.json());
 // app.use(cors({
 //     origin: 'http://localhost:3000', // Allow requests from this origin
@@ -17,6 +17,7 @@ app.use(express.json());
 //     allowedHeaders: ['Content-Type'], // Allow these headers
 //   }));
 
+app.use(cors()); // This will allow requests from any origin
 
 const uri = "mongodb+srv://moxie5dev:Ob7Ww5HY7w9W5sLp@navis.1ie1dmm.mongodb.net/?retryWrites=true&w=majority&appName=navis";
 const client = new MongoClient(uri, {
