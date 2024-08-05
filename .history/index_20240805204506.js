@@ -170,7 +170,7 @@ app.post('/login', async (req, res) => {
     try {
         const { username, password } = req.body;
         const database = client.db('navis_db');
-        const collection = database.collection('navis_users');
+        const collection = database.collection('navisusers');
         const user = await collection.findOne({ username: username });
         if (user && user.password === password) {
             res.json(user);
