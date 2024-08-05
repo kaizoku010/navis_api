@@ -4,8 +4,9 @@ const cors = require('cors');
 const app = express();
 const { v4: uuidv4 } = require('uuid');
 const multer = require('multer');
-
 const {GridFsStorage} = require('multer-gridfs-storage');
+
+const multerGridfsStorage = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 
 const port = process.env.PORT || 3000;
@@ -45,7 +46,7 @@ client.connect().then(() => {
 }).catch(err => console.error("Error connecting to MongoDB:", err));
 
 // Set up GridFS storage with multer
-const storage = GridFsStorage({
+const storage = multerGridfsStorage({
     url: uri,
     file: (req, file) => {
         return {

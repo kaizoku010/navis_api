@@ -5,7 +5,7 @@ const app = express();
 const { v4: uuidv4 } = require('uuid');
 const multer = require('multer');
 
-const {GridFsStorage} = require('multer-gridfs-storage');
+const GridFsStorage = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 
 const port = process.env.PORT || 3000;
