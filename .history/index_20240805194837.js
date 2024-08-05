@@ -11,11 +11,13 @@ const Grid = require('gridfs-stream');
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use(cors({
-    origin: 'http://localhost:3000', // Allow requests from this origin
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow these methods
-    allowedHeaders: ['Content-Type'], // Allow these headers
-  }));
+// app.use(cors({
+//     origin: 'http://localhost:3000', // Allow requests from this origin
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow these methods
+//     allowedHeaders: ['Content-Type'], // Allow these headers
+//   }));
+
+
 const uri = "mongodb+srv://moxie5dev:Ob7Ww5HY7w9W5sLp@navis.1ie1dmm.mongodb.net/?retryWrites=true&w=majority&appName=navis";
 const client = new MongoClient(uri, {
     serverApi: {
