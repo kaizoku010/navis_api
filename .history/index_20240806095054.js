@@ -57,8 +57,8 @@ const storage = new GridFsStorage({
       }
 
       return {
-        bucketName: "uploads",
-        filename: `${Date.now()}-mdx-${file.originalname}`
+        bucketName: dbConfig.imgBucket,
+        filename: `${Date.now()}-bezkoder-${file.originalname}`
       };
   
     },
@@ -73,7 +73,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
         if (!file) {
             return res.status(400).send('No file uploaded.');
         }
-        const imageUrl = `${uri}/uploads/${file.filename}`; // URL to access the file
+        const imageUrl = `${uri}/uploads/${file.filename}`; // URL to access the bucketfile
         res.json({ imageUrl });
     } catch (error) {
         console.error("Error uploading image:", error);
