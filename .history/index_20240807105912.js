@@ -11,7 +11,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(cors({
-    origin: 'https://navis-api.onrender.com', // Update to the actual domain of your frontend app
+    origin: '*', // Update to the actual domain of your frontend app
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type']
 }));
@@ -36,7 +36,7 @@ async function connectToDatabase() {
         console.log("Connected to MongoDB");
         const db = client.db('navis_db');
         gfs = Grid(db, MongoClient);
-        gfs.collection('uploads'); // Collection name for GridFS files
+        gfs.collection('media'); // Collection name for GridFS files
     } catch (error) {
         console.error("Error connecting to MongoDB:", error);
     }
@@ -73,7 +73,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
         if (!file) {
             return res.status(400).send('No file uploaded.');
         }
-        const imageUrl = `https://navis-api.onrender.com/uploads/${file.filename}`; // Updated URL
+        const imageUrl = `${uri}/uploads/${file.filename}`; // URL to access the file
         res.json({ imageUrl });
     } catch (error) {
         console.error("Error uploading image:", error);

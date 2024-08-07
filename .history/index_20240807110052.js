@@ -11,7 +11,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(cors({
-    origin: 'https://navis-api.onrender.com', // Update to the actual domain of your frontend app
+    origin: '*', // Update to the actual domain of your frontend app
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type']
 }));
@@ -36,7 +36,7 @@ async function connectToDatabase() {
         console.log("Connected to MongoDB");
         const db = client.db('navis_db');
         gfs = Grid(db, MongoClient);
-        gfs.collection('uploads'); // Collection name for GridFS files
+        gfs.collection('media'); // Collection name for GridFS files
     } catch (error) {
         console.error("Error connecting to MongoDB:", error);
     }
