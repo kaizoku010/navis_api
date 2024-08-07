@@ -77,7 +77,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
         
         // Generate the image URL
         const imageUrl = `https://navis-api.onrender.com/uploads/${file.filename}`;
-        console.log("image link: ", imageUrl)
+        console.log()
         // Return the image URL
         res.json({ imageUrl });
     } catch (error) {
