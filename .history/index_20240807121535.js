@@ -74,7 +74,6 @@ app.post('/upload', upload.single('file'), async (req, res) => {
             return res.status(400).send('No file uploaded.');
         }
         const imageUrl = `https://navis-api.onrender.com/uploads/${file.filename}`; // Updated URL
-     console.log("image link: ", imageUrl)
         res.json({ imageUrl });
     } catch (error) {
         console.error("Error uploading image:", error);
@@ -201,7 +200,7 @@ app.post('/login', async (req, res) => {
         }
     } catch (error) {
         res.status(500).send('Error logging in');
-    }
+    }'/users/:username
 });
 
 app.post('/register', async (req, res) => {
