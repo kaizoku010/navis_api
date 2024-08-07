@@ -3,7 +3,20 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 const cors = require('cors');
 const app = express();
 const { v4: uuidv4 } = require('uuid');
+const multer = require('multer');
+const admin = require("firebase-admin");
 
+// Initialize Firebase Admin SDK
+const serviceAccount = require("./serviceAccountKey.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  storageBucket: 'navisimages.appspot.com'
+});
+
+const bucket = admin.storage().bucket();
+
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(cors({
@@ -35,52 +48,52 @@ async function connectToDatabase() {
 
 connectToDatabase().catch(console.dir);
 
-// // Set up multer for handling file uploads
-// const storage = multer.memoryStorage();
-// const upload = multer({ storage });
+// Set up multer for handling file uploads
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
-// // Endpoint to handle image uploads
-// app.post('/upload', upload.single('file'), async (req, res) => {
-//     try {
-//         const file = req.file;
-//         if (!file) {
-//             return res.status(400).send('No file uploaded.');
-//         }
+// Endpoint to handle image uploads
+app.post('/upload', upload.single('file'), async (req, res) => {
+    try {
+        const file = req.file;
+        if (!file) {
+            return res.status(400).send('No file uploaded.');
+        }
 
-//         console.log('File received:', file.originalname);
+        console.log('File received:', file.originalname);
 
-//         const filename = `${Date.now()}-${file.originalname}`;
-//         const fileUpload = bucket.file(filename);
+        const filename = `${Date.now()}-${file.originalname}`;
+        const fileUpload = bucket.file(filename);
 
-//         const blobStream = fileUpload.createWriteStream({
-//             metadata: {
-//                 contentType: file.mimetype
-//             }
-//         });
+        const blobStream = fileUpload.createWriteStream({
+            metadata: {
+                contentType: file.mimetype
+            }
+        });
 
-//         blobStream.on('error', (error) => {
-//             console.error('Error uploading image:', error);
-//             res.status(500).send('Error uploading image');
-//         });
+        blobStream.on('error', (error) => {
+            console.error('Error uploading image:', error);
+            res.status(500).send('Error uploading image');
+        });
 
-//         blobStream.on('finish', async () => {
-//             try {
-//                 await fileUpload.makePublic();
-//                 const imageUrl = `https://storage.googleapis.com/${bucket.name}/${filename}`;
-//                 console.log("Image link:", imageUrl);
-//                 res.json({ imageUrl });
-//             } catch (error) {
-//                 console.error('Error making image public:', error);
-//                 res.status(500).send('Error making image public');
-//             }
-//         });
+        blobStream.on('finish', async () => {
+            try {
+                await fileUpload.makePublic();
+                const imageUrl = `https://storage.googleapis.com/${bucket.name}/${filename}`;
+                console.log("Image link:", imageUrl);
+                res.json({ imageUrl });
+            } catch (error) {
+                console.error('Error making image public:', error);
+                res.status(500).send('Error making image public');
+            }
+        });
 
-//         blobStream.end(file.buffer);
-//     } catch (error) {
-//         console.error('Error uploading image:', error);
-//         res.status(500).send('Error uploading image');
-//     }
-// });
+        blobStream.end(file.buffer);
+    } catch (error) {
+        console.error('Error uploading image:', error);
+        res.status(500).send('Error uploading image');
+    }
+});
 
 
 app.get('/deliveries', async (req, res) => {
@@ -104,20 +117,6 @@ app.get('/users', async (req, res) => {
         res.status(500).send('Error fetching users');
     }
 });
-
-
-app.get('/navis_users', async (req, res) => {
-    try {
-      const username = req.query.username;
-      const user = await UserModel.findOne({ username: username });
-      if (!user) {
-        return res.status(404).json({ message: 'User not found' });
-      }
-      res.json(user);
-    } catch (error) {
-      res.status(500).json({ message: 'Server error' });
-    }
-  });
 
 app.get('/non_user_requests', async (req, res) => {
     try {

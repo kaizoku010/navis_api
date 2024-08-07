@@ -3,7 +3,8 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 const cors = require('cors');
 const app = express();
 const { v4: uuidv4 } = require('uuid');
-
+const multer = require('multer');
+const admin = require("firebase-admin");
 
 app.use(express.json());
 app.use(cors({
@@ -104,20 +105,6 @@ app.get('/users', async (req, res) => {
         res.status(500).send('Error fetching users');
     }
 });
-
-
-app.get('/navis_users', async (req, res) => {
-    try {
-      const username = req.query.username;
-      const user = await UserModel.findOne({ username: username });
-      if (!user) {
-        return res.status(404).json({ message: 'User not found' });
-      }
-      res.json(user);
-    } catch (error) {
-      res.status(500).json({ message: 'Server error' });
-    }
-  });
 
 app.get('/non_user_requests', async (req, res) => {
     try {

@@ -105,20 +105,6 @@ app.get('/users', async (req, res) => {
     }
 });
 
-
-app.get('/navis_users', async (req, res) => {
-    try {
-      const username = req.query.username;
-      const user = await UserModel.findOne({ username: username });
-      if (!user) {
-        return res.status(404).json({ message: 'User not found' });
-      }
-      res.json(user);
-    } catch (error) {
-      res.status(500).json({ message: 'Server error' });
-    }
-  });
-
 app.get('/non_user_requests', async (req, res) => {
     try {
         const database = client.db('navis_db');
