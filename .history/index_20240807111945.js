@@ -104,14 +104,14 @@ app.get('/deliveries', async (req, res) => {
     }
 });
 
-app.get('/users', async (req, res) => {
+app.get('/deliveries', async (req, res) => {
     try {
         const database = client.db('navis_db');
-        const collection = database.collection('users');
-        const users = await collection.find().limit(1000).toArray();
-        res.json(users);
+        const collection = database.collection('deliveries');
+        const deliveries = await collection.find().limit(1000).toArray();
+        res.json(deliveries);
     } catch (error) {
-        res.status(500).send('Error fetching users');
+        res.status(500).send('Error fetching deliveries');
     }
 });
 
