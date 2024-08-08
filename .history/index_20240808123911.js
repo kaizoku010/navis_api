@@ -191,6 +191,18 @@ app.post('/saveNonUserRequests', async (req, res) => {
     }
 });
 
+app.post('/saveNonUserRequests', async (req, res) => {
+    try {
+        const reqData = req.body;
+        const database = client.db('navis_db');
+        const collection = database.collection('non_user_requests');
+        await collection.insertOne({ uid: uuidv4(), ...reqData });
+        res.send('Request data saved');
+    } catch (error) {
+        res.status(500).send('Error saving request data');
+    }
+});
+
 app.post('/saveDriverData', async (req, res) => {
     try {
         const driverData = req.body;
