@@ -98,9 +98,9 @@ app.get('/deliveries', async (req, res) => {
 app.get('/users', async (req, res) => {
     try {
         const database = client.db('navis_db');
-        const collection = database.collection('navis_users');
-        const users = await collection.find().limit(1000).toArray();
-        res.json(users);
+        const collection = database.collection('drivers');
+        const drivers = await collection.find().limit(1000).toArray();
+        res.json(drivers);
     } catch (error) {
         res.status(500).send('Error fetching users');
     }
@@ -109,11 +109,11 @@ app.get('/users', async (req, res) => {
 app.get('/drivers', async (req, res) => {
     try {
         const database = client.db('navis_db');
-        const collection = database.collection('drivers');
-        const drivers = await collection.find().limit(1000).toArray();
-        res.json(drivers);
+        const collection = database.collection('navis_users');
+        const users = await collection.find().limit(1000).toArray();
+        res.json(users);
     } catch (error) {
-        res.status(500).send('Error fetching drivers');
+        res.status(500).send('Error fetching users');
     }
 });
 

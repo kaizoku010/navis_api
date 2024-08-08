@@ -106,17 +106,6 @@ app.get('/users', async (req, res) => {
     }
 });
 
-app.get('/drivers', async (req, res) => {
-    try {
-        const database = client.db('navis_db');
-        const collection = database.collection('drivers');
-        const drivers = await collection.find().limit(1000).toArray();
-        res.json(drivers);
-    } catch (error) {
-        res.status(500).send('Error fetching drivers');
-    }
-});
-
 
 app.get('/navis_users', async (req, res) => {
     try {
@@ -131,6 +120,18 @@ app.get('/navis_users', async (req, res) => {
     }
   });
 
+  app.get('/drivers', async (req, res) => {
+    try {
+      const username = req.query.username;
+      const user = await UserModel.findOne({ username: username });
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+      res.json(user);
+    } catch (error) {
+      res.status(500).json({ message: 'Server error' });
+    }
+  });
 
 app.get('/non_user_requests', async (req, res) => {
     try {

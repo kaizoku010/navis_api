@@ -111,7 +111,7 @@ app.get('/drivers', async (req, res) => {
         const database = client.db('navis_db');
         const collection = database.collection('drivers');
         const drivers = await collection.find().limit(1000).toArray();
-        res.json(drivers);
+        res.json(users);
     } catch (error) {
         res.status(500).send('Error fetching drivers');
     }

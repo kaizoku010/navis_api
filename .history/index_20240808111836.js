@@ -106,17 +106,6 @@ app.get('/users', async (req, res) => {
     }
 });
 
-app.get('/drivers', async (req, res) => {
-    try {
-        const database = client.db('navis_db');
-        const collection = database.collection('drivers');
-        const drivers = await collection.find().limit(1000).toArray();
-        res.json(drivers);
-    } catch (error) {
-        res.status(500).send('Error fetching drivers');
-    }
-});
-
 
 app.get('/navis_users', async (req, res) => {
     try {
