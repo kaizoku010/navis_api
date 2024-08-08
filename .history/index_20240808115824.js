@@ -123,7 +123,7 @@ app.get('/trucks', async (req, res) => {
         const database = client.db('navis_db');
         const collection = database.collection('trucks');
         const trucks = await collection.find().limit(1000).toArray();
-        res.json(trucks);
+        res.json(drivers);
     } catch (error) {
         res.status(500).send('Error fetching drivers');
     }

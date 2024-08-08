@@ -118,18 +118,6 @@ app.get('/drivers', async (req, res) => {
 });
 
 
-app.get('/trucks', async (req, res) => {
-    try {
-        const database = client.db('navis_db');
-        const collection = database.collection('trucks');
-        const trucks = await collection.find().limit(1000).toArray();
-        res.json(trucks);
-    } catch (error) {
-        res.status(500).send('Error fetching drivers');
-    }
-});
-
-
 app.get('/navis_users', async (req, res) => {
     try {
       const username = req.query.username;
@@ -156,7 +144,7 @@ app.get('/non_user_requests', async (req, res) => {
 });
 
 
-app.get('/all_assigments', async (req, res) => {
+app.get('/get', async (req, res) => {
     try {
         const database = client.db('navis_db');
         const collection = database.collection('non_user_requests');
@@ -203,6 +191,17 @@ app.post('/saveDriverData', async (req, res) => {
     }
 });
 
+app.post('/fetchTrucks', async (req, res) => {
+    try {
+        const { company } = req.body;
+        const database = client.db('navis_db');
+        const collection = database.collection('trucks');
+        const trucks = await collection.find({ company: company }).limit(1000).toArray();
+        res.json(trucks);
+    } catch (error) {
+        res.status(500).send('Error fetching trucks');
+    }
+});
 
 app.post('/saveTruckData', async (req, res) => {
     try {
