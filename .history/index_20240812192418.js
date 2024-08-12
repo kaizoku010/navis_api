@@ -294,14 +294,14 @@ app.post('/login', async (req, res) => {
 
 
 
-app.post('/driver_login', async (req, res) => {
+app.post('/driverlogin', async (req, res) => {
     try {
         const { username, password } = req.body;
         const database = client.db('navis_db');
-        const collection = database.collection('driver');
+        const collection = database.collection('navis_users');
         
         // Find the user by username
-        const user = await collection.findOne({ name: username });
+        const user = await collection.findOne({ username: username });
         
         // If user is not found or password does not match, send 401 status
         if (!user || user.password !== password) {

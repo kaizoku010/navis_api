@@ -301,7 +301,7 @@ app.post('/driver_login', async (req, res) => {
         const collection = database.collection('driver');
         
         // Find the user by username
-        const user = await collection.findOne({ name: username });
+        const user = await collection.findOne({ username: username });
         
         // If user is not found or password does not match, send 401 status
         if (!user || user.password !== password) {
