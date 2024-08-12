@@ -216,44 +216,34 @@ app.post('/saveTruckData', async (req, res) => {
     }
 });
 
-app.post('/assignments', async (req, res) => {
+app.post('/assigments', async (req, res) => {
     try {
         const { driverId, truckId } = req.body;
-
-        if (!driverId || !truckId) {
-            return res.status(400).json({ message: 'Driver ID and Truck ID are required' });
-        }
-
         const database = client.db('navis_db');
 
         // Fetch driver and truck
-        const driver = await database.collection('drivers').findOne({ _id: new ObjectId(driverId) });
-        const truck = await database.collection('trucks').findOne({ _id: new ObjectId(truckId) });
+        const driver = await database.collection('drivers').findOne({ _id: driverId });
+        const truck = await database.collection('trucks').findOne({ _id: truckId });
 
-        if (!driver) {
-            return res.status(404).json({ message: 'Driver not found' });
+        if (!driver || !truck) {
+            return res.status(404).json({ message: 'Driver or Truck not found' });
         }
 
-        if (!truck) {
-            return res.status(404).json({ message: 'Truck not found' });
-        }
-
-        if (driver.truckId && driver.truckId.toString() !== truckId.toString()) {
+        if (driver.truckId && driver.truckId !== truckId) {
             return res.status(400).json({ message: 'Driver is already assigned to another truck' });
         }
 
-        if (truck.driverId && truck.driverId.toString() !== driverId.toString()) {
+        if (truck.driverId && truck.driverId !== driverId) {
             return res.status(400).json({ message: 'Truck is already assigned to another driver' });
         }
 
         // Assign driver to truck
-        await database.collection('drivers').updateOne({ _id: new ObjectId(driverId) }, { $set: { truckId: truckId } });
-        await database.collection('trucks').updateOne({ _id: new ObjectId(truckId) }, { $set: { driverId: driverId } });
+        await database.collection('drivers').updateOne({ _id: driverId }, { $set: { truckId } });
+        await database.collection('trucks').updateOne({ _id: truckId }, { $set: { driverId } });
 
         res.status(200).json({ message: 'Driver assigned to truck successfully' });
     } catch (error) {
-        console.error('Error assigning driver to truck:', error.message);
-        res.status(500).json({ message: 'Error assigning driver to truck' });
+        res.status(500).send('Error assigning driver to truck');
     }
 });
 
@@ -270,7 +260,7 @@ app.post('/track-position', asyncHandler(async (req, res) => {
 
 
 // Endpoint to start a trip
-app.post('/non_user_requests/:uid/start', asyncHandler(async (req, res) => {
+app.post('/non_user_requests/:tripId/start', asyncHandler(async (req, res) => {
     const tripId = req.params.tripId;
     await db.collection('trips').updateOne(
       { _id: tripId },
@@ -280,11 +270,7 @@ app.post('/non_user_requests/:uid/start', asyncHandler(async (req, res) => {
   }));
   
 
-  app.get('/non_user_requests/:driverId', asyncHandler(async (req, res) => {
-    const driverId = req.params.driverId;
-    const trips = await db.collection('trips').find({ driverId }).toArray();
-    res.json(trips || []);
-  }));
+
 
 
 app.patch('/non_user_requests/:uid', async (req, res) => {
