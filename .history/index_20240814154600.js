@@ -8,7 +8,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(cors({
-    origin: ['*', 'http://localhost:3002'], // Whitelist the domains you want to allow
+    origin: ['http://localhost:3000', 'http://localhost:80'] // Whitelist the domains you want to allow
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type']
 }));
