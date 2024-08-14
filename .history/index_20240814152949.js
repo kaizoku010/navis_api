@@ -178,7 +178,6 @@ app.post('/updateDeliveryStatus', async (req, res) => {
         res.status(500).send('Error updating delivery status');
     }
 });
-console.log("")
 
 app.post('/saveNonUserRequests', async (req, res) => {
     try {
