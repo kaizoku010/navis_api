@@ -280,11 +280,11 @@ app.post('/assignments', async (req, res) => {
 //   }));
   
 
-//   app.get('/non_user_requests/:driverId', asyncHandler(async (req, res) => {
-//     const driverId = req.params.driverId;
-//     const trips = await db.collection('trips').find({ driverId }).toArray();
-//     res.json(trips || []);
-//   }));
+  app.get('/non_user_requests/:driverId', asyncHandler(async (req, res) => {
+    const driverId = req.params.driverId;
+    const trips = await db.collection('trips').find({ driverId }).toArray();
+    res.json(trips || []);
+  }));
 
 
 app.patch('/non_user_requests/:uid', async (req, res) => {
