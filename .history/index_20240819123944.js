@@ -310,12 +310,12 @@ app.patch('/non_user_requests/:uid', async (req, res) => {
 app.patch('/drivers/:uid', async (req, res) => {
     try {
         const { uid } = req.params;
-        const { plate } = req.body;
+        const { numberPlate } = req.body;
         const database = client.db('navis_db');
         const collection = database.collection('drivers');
         const result = await collection.updateOne(
             { uid: uid },
-            { $set: { numberPlate: plate } }
+            { $set: { numberPlate: numberPlate } }
         );
         if (result.modifiedCount > 0) {
             res.status(200).send('Status updated successfully');

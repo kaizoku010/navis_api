@@ -307,26 +307,6 @@ app.patch('/non_user_requests/:uid', async (req, res) => {
     }
 });
 
-app.patch('/drivers/:uid', async (req, res) => {
-    try {
-        const { uid } = req.params;
-        const { plate } = req.body;
-        const database = client.db('navis_db');
-        const collection = database.collection('drivers');
-        const result = await collection.updateOne(
-            { uid: uid },
-            { $set: { numberPlate: plate } }
-        );
-        if (result.modifiedCount > 0) {
-            res.status(200).send('Status updated successfully');
-        } else {
-            res.status(404).send('Delivery not found');
-        }
-    } catch (error) {
-        res.status(500).send('Error updating delivery status');
-    }
-});
-
 
 
 

@@ -310,7 +310,7 @@ app.patch('/non_user_requests/:uid', async (req, res) => {
 app.patch('/drivers/:uid', async (req, res) => {
     try {
         const { uid } = req.params;
-        const { plate } = req.body;
+        const { palte } = req.body;
         const database = client.db('navis_db');
         const collection = database.collection('drivers');
         const result = await collection.updateOne(
