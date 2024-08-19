@@ -315,7 +315,7 @@ app.get('/driver/:uid', async (req, res) => {
         const database = client.db('navis_db');
         const collection = database.collection('drivers');
         
-        const driverId = req.params.uid;  // Extract the driver ID from the request parameters
+        const driverId = req.params.id;  // Extract the driver ID from the request parameters
         const request = await collection.findOne({ uid: driverId });  // Find the driver with the specific ID
         
         if (request) {
