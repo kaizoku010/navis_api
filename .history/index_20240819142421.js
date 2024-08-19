@@ -313,7 +313,7 @@ app.patch('/non_user_requests/:uid', async (req, res) => {
 app.get('/driver/:_id', async (req, res) => {
     try {
         const database = client.db('navis_db');
-        const collection = database.collection('drivers');
+        const collection = database.collection('driver');
         const requests = await collection.find().limit(1000).toArray();
         res.json(requests);
     } catch (error) {
@@ -328,7 +328,7 @@ app.patch('/drivers/:_id', async (req, res) => {
         const database = client.db('navis_db');
         const collection = database.collection('drivers');
         const result = await collection.updateOne(
-            { _id: uid },
+            { _idid: uid },
             { $set: { numberPlate: plate } }
         );
         if (result.modifiedCount > 0) {
