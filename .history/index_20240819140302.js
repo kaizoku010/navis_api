@@ -167,9 +167,6 @@ app.get('/all_assigments', async (req, res) => {
     }
 });
 
-
-
-
 app.post('/updateDeliveryStatus', async (req, res) => {
     try {
         const { uid, status } = req.body;
@@ -310,17 +307,6 @@ app.patch('/non_user_requests/:uid', async (req, res) => {
     }
 });
 
-app.get('/driver/:_id', async (req, res) => {
-    try {
-        const database = client.db('navis_db');
-        const collection = database.collection('driver');
-        const requests = await collection.find().limit(1000).toArray();
-        res.json(requests);
-    } catch (error) {
-        res.status(500).send('Error fetching non-user requests');
-    }
-});
-
 app.patch('/drivers/:_id', async (req, res) => {
     try {
         const { uid } = req.params;
@@ -337,7 +323,7 @@ app.patch('/drivers/:_id', async (req, res) => {
             res.status(404).send('Truck not found');
         }
     } catch (error) {
-        res.status(500).send('Error updating driver truck');
+        res.status(500).send('Error updating driver status');
     }
 });
 

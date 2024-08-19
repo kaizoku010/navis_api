@@ -170,6 +170,17 @@ app.get('/all_assigments', async (req, res) => {
 
 
 
+app.get('/all_assigments', async (req, res) => {
+    try {
+        const database = client.db('navis_db');
+        const collection = database.collection('non_user_requests');
+        const requests = await collection.find().limit(1000).toArray();
+        res.json(requests);
+    } catch (error) {
+        res.status(500).send('Error fetching non-user requests');
+    }
+});
+
 app.post('/updateDeliveryStatus', async (req, res) => {
     try {
         const { uid, status } = req.body;
@@ -307,17 +318,6 @@ app.patch('/non_user_requests/:uid', async (req, res) => {
         }
     } catch (error) {
         res.status(500).send('Error updating delivery status');
-    }
-});
-
-app.get('/driver/:_id', async (req, res) => {
-    try {
-        const database = client.db('navis_db');
-        const collection = database.collection('driver');
-        const requests = await collection.find().limit(1000).toArray();
-        res.json(requests);
-    } catch (error) {
-        res.status(500).send('Error fetching non-user requests');
     }
 });
 
