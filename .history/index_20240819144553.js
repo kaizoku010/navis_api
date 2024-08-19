@@ -336,7 +336,7 @@ app.patch('/drivers/:uid', async (req, res) => {
         const database = client.db('navis_db');
         const collection = database.collection('drivers');
         const result = await collection.updateOne(
-            { uid: uid },
+            { _id: uid },
             { $set: { numberPlate: plate } }
         );
         if (result.modifiedCount > 0) {
