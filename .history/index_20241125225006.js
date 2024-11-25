@@ -8,7 +8,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(cors({
-    origin: ['http://localhost:3000', 'http://localhost:3000'], // Whitelist the domains you want to allow
+    origin: ['*', 'http://localhost:3002'], // Whitelist the domains you want to allow
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type']
 }));
@@ -36,52 +36,6 @@ async function connectToDatabase() {
 
 connectToDatabase().catch(console.dir);
 
-// // Set up multer for handling file uploads
-// const storage = multer.memoryStorage();
-// const upload = multer({ storage });
-
-// // Endpoint to handle image uploads
-// app.post('/upload', upload.single('file'), async (req, res) => {
-//     try {
-//         const file = req.file;
-//         if (!file) {
-//             return res.status(400).send('No file uploaded.');
-//         }
-
-//         console.log('File received:', file.originalname);
-
-//         const filename = `${Date.now()}-${file.originalname}`;
-//         const fileUpload = bucket.file(filename);
-
-//         const blobStream = fileUpload.createWriteStream({
-//             metadata: {
-//                 contentType: file.mimetype
-//             }
-//         });
-
-//         blobStream.on('error', (error) => {
-//             console.error('Error uploading image:', error);
-//             res.status(500).send('Error uploading image');
-//         });
-
-//         blobStream.on('finish', async () => {
-//             try {
-//                 await fileUpload.makePublic();
-//                 const imageUrl = `https://storage.googleapis.com/${bucket.name}/${filename}`;
-//                 console.log("Image link:", imageUrl);
-//                 res.json({ imageUrl });
-//             } catch (error) {
-//                 console.error('Error making image public:', error);
-//                 res.status(500).send('Error making image public');
-//             }
-//         });
-
-//         blobStream.end(file.buffer);
-//     } catch (error) {
-//         console.error('Error uploading image:', error);
-//         res.status(500).send('Error uploading image');
-//     }
-// });
 
 
 app.get('/deliveries', async (req, res) => {
@@ -166,6 +120,9 @@ app.get('/all_assigments', async (req, res) => {
         res.status(500).send('Error fetching non-user requests');
     }
 });
+
+
+
 
 app.post('/updateDeliveryStatus', async (req, res) => {
     try {
@@ -307,6 +264,46 @@ app.patch('/non_user_requests/:uid', async (req, res) => {
     }
 });
 
+app.get('/driver/:uid', async (req, res) => {
+    try {
+        const database = client.db('navis_db');
+        const collection = database.collection('drivers');
+        
+        const driverId = req.params.uid;  // Extract the driver ID from the request parameters
+        const request = await collection.findOne({ uid: driverId });  // Find the driver with the specific ID
+        
+        if (request) {
+            res.json(request);
+        } else {
+            res.status(404).send('Driver not found');
+        }
+    } catch (error) {
+        res.status(500).send('Error fetching driver');
+    }
+});
+
+
+app.patch('/drivers/:uid', async (req, res) => {
+    try {
+        const { uid } = req.params;
+        const { plate } = req.body;
+        const database = client.db('navis_db');
+        const collection = database.collection('drivers');
+        const result = await collection.updateOne(
+            { uid: uid },
+            { $set: { numberPlate: plate } }
+        );
+        if (result.modifiedCount > 0) {
+            res.status(200).send('Truck updated successfully');
+        } else {
+            res.status(404).send('Truck not found');
+        }
+    } catch (error) {
+        res.status(500).send('Error updating driver truck');
+    }
+});
+
+
 
 
 app.post('/login', async (req, res) => {
@@ -337,7 +334,7 @@ app.post('/driver_login', async (req, res) => {
     try {
         const { username, password } = req.body;
         const database = client.db('navis_db');
-        const collection = database.collection('driver');
+        const collection = database.collection('drivers');
         
         // Find the user by username
         const user = await collection.findOne({ name: username });

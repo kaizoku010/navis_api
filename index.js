@@ -36,52 +36,6 @@ async function connectToDatabase() {
 
 connectToDatabase().catch(console.dir);
 
-// // Set up multer for handling file uploads
-// const storage = multer.memoryStorage();
-// const upload = multer({ storage });
-
-// // Endpoint to handle image uploads
-// app.post('/upload', upload.single('file'), async (req, res) => {
-//     try {
-//         const file = req.file;
-//         if (!file) {
-//             return res.status(400).send('No file uploaded.');
-//         }
-
-//         console.log('File received:', file.originalname);
-
-//         const filename = `${Date.now()}-${file.originalname}`;
-//         const fileUpload = bucket.file(filename);
-
-//         const blobStream = fileUpload.createWriteStream({
-//             metadata: {
-//                 contentType: file.mimetype
-//             }
-//         });
-
-//         blobStream.on('error', (error) => {
-//             console.error('Error uploading image:', error);
-//             res.status(500).send('Error uploading image');
-//         });
-
-//         blobStream.on('finish', async () => {
-//             try {
-//                 await fileUpload.makePublic();
-//                 const imageUrl = `https://storage.googleapis.com/${bucket.name}/${filename}`;
-//                 console.log("Image link:", imageUrl);
-//                 res.json({ imageUrl });
-//             } catch (error) {
-//                 console.error('Error making image public:', error);
-//                 res.status(500).send('Error making image public');
-//             }
-//         });
-
-//         blobStream.end(file.buffer);
-//     } catch (error) {
-//         console.error('Error uploading image:', error);
-//         res.status(500).send('Error uploading image');
-//     }
-// });
 
 
 app.get('/deliveries', async (req, res) => {
