@@ -165,7 +165,7 @@ app.post('/make-delivery', async (req, res) => {
     try {
         const reqData = req.body;
         const database = client.db('navis_db');
-        const collection = database.collection('navis_deliveries');
+        const collection = database.collection('non_user_requests');
         await collection.insertOne({ uid: uuidv4(), ...reqData });
         res.send('Request data saved');
     } catch (error) {
